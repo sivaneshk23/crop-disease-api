@@ -2,8 +2,9 @@ services:
   - type: web
     name: crop-disease-api
     env: python
-    buildCommand: pip install -r requirements.txt
-    startCommand: uvicorn app:app --host 0.0.0.0 --port $PORT --timeout-keep-alive 30
-    envVars:
-      - key: PYTHON_VERSION
-        value: "3.10.0"
+    buildCommand: |
+      pip install -r requirements.txt
+      echo "Downloading model from GitHub Release..."
+      curl -L -o model.pth https://github.com/sivaneshk23/crop-disease-api/releases/download/v1.0.0/model.pth
+      echo "Model download complete."
+    startCommand: uvicorn app:app --host 0.0.0.0 --port $PORT
