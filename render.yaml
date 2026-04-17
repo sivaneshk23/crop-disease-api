@@ -3,6 +3,10 @@ services:
     name: crop-disease-api
     env: python
     buildCommand: |
+      echo "Starting build..."
       pip install -r requirements.txt
+      echo "Downloading model from GitHub Release..."
       curl -L -o model.pth https://github.com/sivaneshk23/crop-disease-api/releases/download/v1.0.0/model.pth
+      ls -la model.pth
+      echo "Build complete!"
     startCommand: uvicorn app:app --host 0.0.0.0 --port $PORT
