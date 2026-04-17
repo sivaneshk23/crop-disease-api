@@ -4,13 +4,14 @@ services:
     env: python
     buildCommand: |
       pip install -r requirements.txt
-      echo "Downloading model file..."
+      echo "Downloading model file from GitHub Release..."
       wget --header="Accept: application/octet-stream" -O model.pth https://github.com/sivaneshk23/crop-disease-api/releases/download/v1.0.0/model.pth
+      echo "Checking if model downloaded..."
       ls -la model.pth
       if [ -f model.pth ]; then
-        echo "✅ Model download successful"
+        echo "✅ Model download successful! Size: $(ls -lh model.pth | awk '{print $5}')"
       else
-        echo "❌ Model download failed"
+        echo "❌ Model download failed - file not found"
         exit 1
       fi
     startCommand: uvicorn app:app --host 0.0.0.0 --port $PORT
