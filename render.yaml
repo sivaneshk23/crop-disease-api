@@ -3,12 +3,5 @@ services:
     name: crop-disease-api
     env: python
     buildCommand: |
-      echo "Starting build..."
-      pip install --upgrade pip
       pip install -r requirements.txt
-      echo "Installing gdown for Google Drive downloads..."
-      pip install gdown
-      echo "Downloading model from Google Drive..."
-      gdown "https://drive.google.com/uc?id=14jFdxleEjSYMQ5rE5VevLM4EV-CfTXCp" -O model.pth
-      ls -lah model.pth
     startCommand: uvicorn app:app --host 0.0.0.0 --port $PORT
