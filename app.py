@@ -18,7 +18,9 @@ import io
 import json
 import logging
 from datetime import datetime
-
+import sys
+print("Python path:", sys.path)
+print("Current directory files:", os.listdir("."))
 # ── LOGGING ────────────────────────────────────────────────
 logging.basicConfig(
     level=logging.INFO,
@@ -550,3 +552,12 @@ async def predict(file: UploadFile = File(...)):
             status_code=500,
             content={"status": "error", "message": "Analysis failed. Please try again."}
         )
+@app.get("/test")
+def test():
+    return {"status": "alive", "port": os.environ.get("PORT", "not set")}
+import os
+
+if __name__ == "__main__":
+    import uvicorn
+    port = int(os.environ.get("PORT", 10000))
+    uvicorn.run(app, host="0.0.0.0", port=port)
