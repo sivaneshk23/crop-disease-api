@@ -4,7 +4,4 @@ services:
     env: python
     buildCommand: |
       pip install -r requirements.txt
-      echo "Downloading model..."
-      curl -L -o model.pth "https://limewire.com/d/bAi9I#MEOT6UxDL2"
-      ls -la model.pth
     startCommand: uvicorn app:app --host 0.0.0.0 --port $PORT
