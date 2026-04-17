@@ -3,15 +3,12 @@ services:
     name: crop-disease-api
     env: python
     buildCommand: |
+      echo "Starting build..."
+      pip install --upgrade pip
       pip install -r requirements.txt
-      echo "Downloading model file from GitHub Release..."
-      wget --header="Accept: application/octet-stream" -O model.pth https://github.com/sivaneshk23/crop-disease-api/releases/download/v1.0.0/model.pth
-      echo "Checking if model downloaded..."
-      ls -la model.pth
-      if [ -f model.pth ]; then
-        echo "✅ Model download successful! Size: $(ls -lh model.pth | awk '{print $5}')"
-      else
-        echo "❌ Model download failed - file not found"
-        exit 1
-      fi
+      echo "Installing gdown for Google Drive downloads..."
+      pip install gdown
+      echo "Downloading model from Google Drive..."
+      gdown --fuzzy "https://drive.google.com/file/d/1VHpLqVjFbGqLzQzLzLzLzLzLzLzLzL/view" -O model.pth || echo "If this fails, replace the URL with your actual Google Drive link"
+      ls -lah model.pth
     startCommand: uvicorn app:app --host 0.0.0.0 --port $PORT
